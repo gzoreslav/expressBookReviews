@@ -50,7 +50,7 @@ public_users.get('/review/:isbn', function (req, res) {
         return res.status(300).json({message: "Books not found"});
     }
 
-    return res.send(book.review);
+    return res.send(book.reviews);
 });
 
 module.exports.general = public_users;
