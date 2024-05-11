@@ -27,26 +27,29 @@ public_users.post("/register", (req, res) => {
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
     let getBooksPromise = new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(books)
-        }, 2000)
+        resolve(books);
     });
 
-    getBooksPromise.then(result => {
-        res.send(result);
-    });
+    getBooksPromise.then(result => res.send(result));
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', function (req, res) {
-    const isbn = req.params.isbn;
-    const book = books[isbn];
+    let getBookPromise = new Promise((resolve, reject) => {
 
-    if (!book) {
-        return res.status(300).json({message: "Books not found"});
-    }
+        const isbn = req.params.isbn;
+        const book = books[isbn];
 
-    return res.send(book);
+        if (!book) {
+            reject({message: "Book not found"});
+        }
+
+        return res.send(book);
+    });
+
+    getBookPromise
+        .then(result => res.send(result))
+        .catch(err => res.status(300).send(err));
 });
 
 // Get book details based on author
