@@ -75,7 +75,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   }
 
   const {
-    currentReview = [books[isbn].reviews[req.user.data.username]],
+    [books[isbn].reviews[req.user.data.username]]: currentUserReview,
     ...rest
   } = books[isbn].reviews
 
