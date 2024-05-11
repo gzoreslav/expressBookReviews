@@ -67,6 +67,28 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   res.send(books[isbn].reviews);
 });
 
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  const isbn = req.params.isbn;
+
+  if (!isbn) {
+    return res.status(300).json({message: "ISBN is required"});
+  }
+
+  const {
+    currentReview = [books[isbn].reviews[req.user.data.username]],
+    ...rest
+  } = books[isbn].reviews
+
+  books[isbn] = {
+    ...books[isbn],
+    reviews: {
+      ...rest
+    }
+  }
+
+  res.send(books[isbn].reviews);
+});
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
