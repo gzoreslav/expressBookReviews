@@ -52,7 +52,7 @@ public_users.get('/isbn/:isbn', function (req, res) {
         })
     };
 
-    getBookPromise
+    getBookPromise()
         .then(result => res.send(result))
         .catch(err => res.status(300).send(err));
 });
@@ -67,7 +67,7 @@ public_users.get('/author/:author', function (req, res) {
         });
     };
 
-    getBookPromise
+    getBookPromise()
         .then(result => res.send(result))
         .catch(err => res.status(300).send(err));
 });
