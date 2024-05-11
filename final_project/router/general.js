@@ -74,9 +74,17 @@ public_users.get('/author/:author', function (req, res) {
 
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
-    const booksArray = Object.values(books);
-    const filteredBooks = booksArray.filter((book) => book.title === req.params.title);
-    return res.send(filteredBooks);
+    let getBookPromise = () => {
+        return new Promise((resolve, reject) => {
+            const booksArray = Object.values(books);
+            const filteredBooks = booksArray.filter((book) => book.title === req.params.title);
+            resolve(filteredBooks);
+        });
+    };
+
+    getBookPromise()
+        .then(result => res.send(result))
+        .catch(err => res.status(300).send(err));
 });
 
 //  Get book review
