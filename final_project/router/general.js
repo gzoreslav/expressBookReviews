@@ -26,26 +26,31 @@ public_users.post("/register", (req, res) => {
 
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
-    let getBooksPromise = new Promise((resolve, reject) => {
-        resolve(books);
-    });
+    let getBooksPromise = () => {
+        return new Promise((resolve, reject) => {
+            resolve(books);
+        })
+    };
 
-    getBooksPromise.then(result => res.send(result));
+    getBooksPromise().then(result => res.send(result));
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', function (req, res) {
-    let getBookPromise = new Promise((resolve, reject) => {
+    let getBookPromise = () =>
+    {
+        return new Promise((resolve, reject) => {
 
-        const isbn = req.params.isbn;
-        const book = books[isbn];
+            const isbn = req.params.isbn;
+            const book = books[isbn];
 
-        if (!book) {
-            reject({message: "Book not found"});
-        }
+            if (!book) {
+                reject({message: "Book not found"});
+            }
 
-        return res.send(book);
-    });
+            resolve(book);
+        })
+    };
 
     getBookPromise
         .then(result => res.send(result))
@@ -54,9 +59,17 @@ public_users.get('/isbn/:isbn', function (req, res) {
 
 // Get book details based on author
 public_users.get('/author/:author', function (req, res) {
-    const booksArray = Object.values(books);
-    const filteredBooks = booksArray.filter((book) => book.author.toLowerCase() === req.params.author.toLowerCase());
-    return res.send(filteredBooks);
+    let getBookPromise = () => {
+        return new Promise((resolve, reject) => {
+            const booksArray = Object.values(books);
+            const filteredBooks = booksArray.filter((book) => book.author.toLowerCase() === req.params.author.toLowerCase());
+            resolve(filteredBooks);
+        });
+    };
+
+    getBookPromise
+        .then(result => res.send(result))
+        .catch(err => res.status(300).send(err));
 });
 
 // Get all books based on title
