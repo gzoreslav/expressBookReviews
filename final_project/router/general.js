@@ -9,6 +9,8 @@ public_users.post("/register", (req, res) => {
     const userName = req.body.username;
     const password = req.body.password;
 
+    console.log(req.body);
+
     if (!password || !userName) {
         return res.status(300).json({message: "Username and password are required"});
     }
