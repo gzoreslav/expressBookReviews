@@ -13,6 +13,12 @@ public_users.post("/register", (req, res) => {
         return res.status(300).json({message: "Username and password are required"});
     }
 
+    const filtered = users.filter(userItem => userItem.username === userName);
+
+    if (filtered.length === 0) {
+        return res.status(300).json({message: "User exists"});
+    }
+
     users.push({username: userName, password: password});
 
     res.send(users);
