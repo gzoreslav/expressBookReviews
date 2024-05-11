@@ -56,6 +56,8 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     return res.status(300).json({message: "Review is required"});
   }
 
+  console.log(req);
+
   books[isbn] = {
     ...books[isbn],
     reviews: {
