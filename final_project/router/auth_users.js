@@ -57,7 +57,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   }
 
   books[isbn] = {
-    ...,
+    ...books[isbn],
     reviews: {
       ...books[isbn].reviews,
       [req.user.username]: review
